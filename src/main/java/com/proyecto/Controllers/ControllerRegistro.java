@@ -9,10 +9,6 @@ import com.proyecto.Entidades.Provincia;
 import com.proyecto.Entidades.Usuario;
 import com.proyecto.ServiciosDatos.DatosUsuarios;
 import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.SessionScoped;
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
-import jakarta.inject.Named;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
@@ -23,8 +19,6 @@ import java.util.List;
  * Este bean gestiona la información del usuario y la lógica de registro.
  */
 
-@Named
-@SessionScoped
 public class ControllerRegistro implements Serializable {
 
     private String nombres;
@@ -53,7 +47,7 @@ public class ControllerRegistro implements Serializable {
             DatosProvincias datosProvincias = new DatosProvincias();
             this.provincias = datosProvincias.obtenerProvincias();
         } catch (Exception e) {
-            mostrarMensaje(FacesMessage.SEVERITY_ERROR, "Error", "No se pudieron cargar las provincias");
+           e.printStackTrace();
         }
     }
     
@@ -64,7 +58,7 @@ public class ControllerRegistro implements Serializable {
      * @return La página a la que se redirige después del registro.
      */
 
-    public String registrarUsuario() {
+    public void registrarUsuario() {
         try {
             Usuario nuevoUsuario = new Usuario();
             nuevoUsuario.setNombreUsuario(nombres + " " + apellidos);
@@ -78,29 +72,16 @@ public class ControllerRegistro implements Serializable {
             boolean resultado = datosUsuarios.insertarUsuario(nuevoUsuario);
 
             if (resultado) {
-                FacesContext.getCurrentInstance().addMessage(null,
-                        new FacesMessage(FacesMessage.SEVERITY_INFO,
-                                "¡Registro Exitoso!",
-                                "Tu cuenta ha sido creada correctamente"));
-
+                System.out.println("¡Registro Exitoso!" + "Tu cuenta ha sido creada correctamente");
                 limpiarCampos();
-                return "index?faces-redirect=true";
             } else {
-                FacesContext.getCurrentInstance().addMessage(null,
-                        new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                                "Error",
-                                "No se pudo completar el registro"));
-                return null;
+                System.out.println("Error" + "No se pudo completar el registro");
             }
-
         } catch (Exception e) {
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                            "Error",
-                            e.getMessage()));
-            return null;
+            e.printStackTrace();
         }
     }
+    
     
     /**
      * Limpia los campos del formulario de registro.
@@ -177,11 +158,6 @@ public class ControllerRegistro implements Serializable {
      * @param titulo    El título del mensaje.
      * @param detalle   El detalle del mensaje.
      */
-
-    private void mostrarMensaje(FacesMessage.Severity severidad, String titulo, String detalle) {
-        FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(severidad, titulo, detalle));
-    }
 
     // Getters y Setters
     public String getNombres() {

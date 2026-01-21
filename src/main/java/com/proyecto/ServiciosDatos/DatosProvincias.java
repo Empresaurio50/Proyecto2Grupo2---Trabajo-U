@@ -5,9 +5,6 @@
 package com.proyecto.ServiciosDatos;
 
 import com.proyecto.Entidades.Provincia;
-import com.proyecto.Entidades.Provincia;
-import com.proyecto.ServiciosDatos.AccesoDatos;
-import com.proyecto.ServiciosDatos.AccesoDatos;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
