@@ -6,11 +6,6 @@ package com.proyecto.Controllers;
 
 import com.proyecto.Entidades.Ofertas;
 import com.proyecto.ServiciosDatos.DatosOfertas;
-import jakarta.annotation.PostConstruct;
-import jakarta.enterprise.context.SessionScoped;
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
-import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.Serializable;
@@ -24,8 +19,7 @@ import java.util.stream.Collectors;
  * Controlador de JSF para la gestión de ofertas de trabajo.
  * Este bean gestiona la lista de ofertas, el filtrado y la interacción del usuario.
  */
-@Named
-@SessionScoped
+
 public class ControllerOfertas implements Serializable{
     
     private List<Ofertas> listaOfertas = new ArrayList<>();
@@ -69,12 +63,7 @@ public class ControllerOfertas implements Serializable{
      * @param ruta La ruta a la que se redirige.
      */
     public void redireccionar(String ruta) {
-        HttpServletRequest request;
-        try {
-            request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            FacesContext.getCurrentInstance().getExternalContext().redirect(request.getContextPath() + ruta);
-        } catch (IOException e) {
-        }
+        
     } 
 
      /**
@@ -87,9 +76,6 @@ public class ControllerOfertas implements Serializable{
         // Simulación de envío de solicitud (aquí podrías agregar lógica real)
         System.out.println("Solicitud enviada para la oferta con ID: " + idOferta);
 
-        // Mostrar mensaje en la interfaz
-        FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_INFO, "Solicitud enviada", "Tu solicitud ha sido enviada correctamente."));
     }
     
     public void verDetalles(Ofertas oferta) {

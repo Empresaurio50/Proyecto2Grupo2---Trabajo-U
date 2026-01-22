@@ -9,11 +9,6 @@ package com.proyecto.Controllers;
 import com.proyecto.Entidades.Ofertas;
 import com.proyecto.ServiciosDatos.DatosOfertas;
 import com.proyecto.ServiciosDatos.DatosUsuarios;
-import jakarta.enterprise.context.SessionScoped;
-import jakarta.faces.application.FacesMessage;
-import jakarta.faces.context.FacesContext;
-import jakarta.inject.Named;
-import jakarta.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +20,6 @@ import java.util.List;
  * Controlador de inicio de sesión para la aplicación.
  * Este bean gestiona la autenticación de usuarios y la redirección a la página principal.
  */
-@Named
-@SessionScoped
-
 public class LoginController implements Serializable{
     
     private String correoUsuario;
@@ -51,27 +43,13 @@ public class LoginController implements Serializable{
     public void verificar() {
         if (datosusuarios.validarUsuario(correoUsuario, contraUsuario) != null) {
 
-            this.listaRetorno = datosOfertas.leerOferta();//Carga la lista de ofertas
-            redireccionar("/principal.xhtml");
+            this.listaRetorno = datosOfertas.leerOferta();//Carga la lista de ofertasS
 
         } else {
-            FacesContext.getCurrentInstance().addMessage("error", new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error Verificar", "La contraseña o el correo son incorrectos"));
+            
         }
     }
     
-    /**
-     * Redirige a la ruta especificada.
-     *
-     * @param ruta La ruta a la que se redirige.
-     */
-    public void redireccionar(String ruta) {
-        HttpServletRequest request;
-        try {
-            request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            FacesContext.getCurrentInstance().getExternalContext().redirect(request.getContextPath() + ruta);
-        } catch (Exception e) {
-        }
-    }
     // Getters y setters
     
     public String getCorreoUsuario() {
